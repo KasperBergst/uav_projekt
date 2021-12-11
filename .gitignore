@@ -1,3 +1,4 @@
 frames/*.jpg
 videos/*.mp4
 darknet/
+weights/

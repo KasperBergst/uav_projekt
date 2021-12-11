@@ -19,3 +19,5 @@ services:
         - server
       environment:
         droneHost: "drone"
+      volumes:
+        - ./darknet:/darknet

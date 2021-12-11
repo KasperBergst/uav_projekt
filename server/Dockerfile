@@ -14,15 +14,15 @@ FROM node:16
 # RUN chmod +x run.sh
 # RUN ls -l /videos
 
+WORKDIR /
 COPY ./src/* /
 
 RUN npm install
-RUN chmod +x installDarknet.sh
+RUN ls
 
-RUN ./installDarknet.sh
-COPY ./weights/* darknet
-COPY ./cfg/* ./darknet/cfg/
-COPY ./names/* ./darknet/data/
+# # make darknet
+# RUN cd darknet
+# RUN make
 
 # CMD ["ls"]
 CMD ["npm", "run", "start"]
