@@ -14,9 +14,15 @@ FROM node:16
 # RUN chmod +x run.sh
 # RUN ls -l /videos
 
-COPY ./src/* ./src/
-COPY ./package.json ./
+COPY ./src/* /
+
 RUN npm install
+RUN chmod +x installDarknet.sh
 
+RUN ./installDarknet.sh
+COPY ./weights/* darknet
+COPY ./cfg/* ./darknet/cfg/
+COPY ./names/* ./darknet/data/
 
+# CMD ["ls"]
 CMD ["npm", "run", "start"]

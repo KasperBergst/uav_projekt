@@ -17,3 +17,5 @@ services:
         - drone
       networks:
         - server
+      environment:
+        droneHost: "drone"
