@@ -1,0 +1,19 @@
+version: '3'
+networks:
+  server:
+
+services:
+  drone:
+      build: .
+      restart: on-failure
+      ports:
+        - 9090:9090
+      networks:
+        - server
+  server:
+      build: ./server/
+      restart: on-failure
+      depends_on:
+        - drone
+      networks:
+        - server
