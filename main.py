@@ -2,20 +2,52 @@ import time
 import roslibpy
 import base64
 import cv2
+import subprocess
+from threading import Thread
+import logging
 
-time.sleep(5)
+# Configure logging to high verbosity (DEBUG)
+fmt = '%(asctime)s %(levelname)8s: %(message)s'
+logging.basicConfig(format=fmt, level=logging.INFO)
+log = logging.getLogger(__name__)
+
+def runRoscore():
+    log.info("Starting roscore...")
+    subprocess.run(["roscore"])
+
+def runRosbridge():
+    log.info("Starting rosbridge...")
+    subprocess.run(["roslaunch", "--wait", "rosbridge_server", "rosbridge_websocket.launch"])
+
+def isRosServiceRunning(serviceName):
+    output = subprocess.run(["rostopic", "list"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.decode("utf-8")
+    if output != None:
+        return serviceName in output
+    else:
+        return False
+
+roscore = Thread(target=runRoscore)
+rosbridge = Thread(target=runRosbridge)
+
+roscore.start()
+rosbridge.start()
+
+# wait for rosbridge to run
+while not isRosServiceRunning("/connected_clients"):
+    time.sleep(0.5)
 
 client = roslibpy.Ros(host='localhost', port=9090)
 client.run()
+talker = roslibpy.Topic(client, "/frames", 'std_msgs/String')
 
-talker = roslibpy.Topic(client, '/chatter', 'std_msgs/String')
-
-vidcap = cv2.VideoCapture("/videos/Facade.mp4")
-# vidcap = cv2.VideoCapture("videos/Facade.mp4")
+vidcap = cv2.VideoCapture("/videos/Perimeter.mp4")
 i = 0
 frame_skip = 25
 
-while client.is_connected:
+time.sleep(20)
+
+# while client.is_connected:
+for i in range(5):
     time.sleep(1)
 
     bool, frame = vidcap.read()
@@ -24,6 +56,7 @@ while client.is_connected:
         bool, buffer = cv2.imencode('.jpg', frame)
         encoded_img = base64.b64encode(buffer).decode('ascii')
 
+        log.info("sending data..")
         talker.publish(roslibpy.Message({'data': encoded_img}))
         
         i += frame_skip

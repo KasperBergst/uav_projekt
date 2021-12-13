@@ -7,5 +7,5 @@ wget https://clonex.dk/dior.weights --no-check-certificate
 wget https://clonex.dk/visdrone.weights --no-check-certificate
 wget https://clonex.dk/608.weights --no-check-certificate
 
-cp -a ../server/cfg/ ./cfg/
-cp -a ../server/names/ ./data/
+cp -a ../server/cfg/. ./cfg
+cp -a ../server/names/. ./data
