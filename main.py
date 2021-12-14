@@ -56,7 +56,7 @@ while client.is_connected:
         bool, buffer = cv2.imencode('.jpg', frame)
         encoded_img = base64.b64encode(buffer).decode('ascii')
 
-        log.info("sending data..")
+        # log.info("sending data..")
         talker.publish(roslibpy.Message({'data': encoded_img}))
         
         i += frame_skip

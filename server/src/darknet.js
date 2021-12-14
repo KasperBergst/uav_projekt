@@ -4,7 +4,7 @@ export default class Darknet {
     _queue = [];
     _child;
     _waitingForImage = false;
-    
+
     constructor(weights, threshold)
     {
         this._child = spawn(`bash`, ["detect.sh", weights, threshold]);
@@ -22,13 +22,13 @@ export default class Darknet {
     parseData(dataBuff)
     {
         const data = Buffer.from(dataBuff).toString();
-        const oldLog = this._currLog;
+        // const oldLog = this._currLog;
         this._currLog += data;
         if(this._currLog.includes("Enter Image Path:"))
         {
             if(this._currCallback)
             {
-                this._currCallback(oldLog);
+                this._currCallback(this._currLog);
             }
 
             this._currLog = "";
