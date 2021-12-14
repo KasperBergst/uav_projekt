@@ -4,44 +4,44 @@ export default class Darknet {
     _queue = [];
     _child;
     _waitingForImage = false;
+    
     constructor(weights, threshold)
     {
         this._child = spawn(`bash`, ["detect.sh", weights, threshold]);
-        // this._child.stderr.on('data', (data) => {
-        //     console.error(`stderr: ${data}`);
-        // });
-        
-        // this._child.on('close', (code) => {
-        //     console.log(`child process exited with code ${code}`);
-        // });
-        
+  
         this._child.stdout.on('data', data => this.parseData(data));
         // this._child.stdin.end();
-        
     }
 
+    /**
+     * Parses the data from darknet.
+     * @param Buffer<string> dataBuff 
+     */
     _currCallback = false;
     _currLog = "";
     parseData(dataBuff)
     {
         const data = Buffer.from(dataBuff).toString();
+        const oldLog = this._currLog;
         this._currLog += data;
-
         if(this._currLog.includes("Enter Image Path:"))
         {
-            console.log("SHould enter image path");
-            const tempLog = this._currLog;
+            if(this._currCallback)
+            {
+                this._currCallback(oldLog);
+            }
+
             this._currLog = "";
             this._waitingForImage = true;
             this.queueTick();
-
-            if(this._currCallback)
-            {
-                this._currCallback(tempLog);
-            }
         }
     }
 
+    /**
+     * Adds a frame to the queue.
+     * @param string frameName 
+     * @param (data:string)=>void callback 
+     */
     addImage(frameName, callback)
     {
         this._queue.push({
@@ -51,12 +51,14 @@ export default class Darknet {
         this.queueTick();
     }
 
+    /**
+     * Checks the queue for the next element.
+     */
     queueTick()
     {
         if(this._queue.length > 0 && this._waitingForImage)
         {
             const {frameName, callback} = this._queue.shift();
-            console.log("Proccess next frame!!", frameName);
             this._waitingForImage = false;
 
             this._currCallback = callback;

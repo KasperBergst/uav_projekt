@@ -16,15 +16,13 @@ const listener = new ROSLIB.Topic({
 
 let i = 0;
 listener.subscribe((message) => {
-    const FRAME = `./frames/frame${i}.jpg`;
+    const FRAME = `/frames/frame${i}.jpg`;
     fs.writeFileSync(FRAME, message.data, {
         encoding: "base64url"
     });
     darknet.addImage(FRAME, (data) => {
         console.log("Done proccessing frame!", FRAME, data);
-        fs.unlink(FRAME, (err) => {
-            console.log("Removed file!!", FRAME, err);
-        });
+        setTimeout(() => fs.unlinkSync(FRAME), 50);
     });
     i = (i + 1) % Number.MAX_SAFE_INTEGER;
 });

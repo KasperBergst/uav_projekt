@@ -48,7 +48,7 @@ time.sleep(20)
 
 while client.is_connected:
 # for i in range(5):
-    time.sleep(1)
+    time.sleep(2)
 
     bool, frame = vidcap.read()
     if bool:
