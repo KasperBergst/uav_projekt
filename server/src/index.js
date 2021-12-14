@@ -16,11 +16,11 @@ const listener = new ROSLIB.Topic({
 
 listener.subscribe((message) => {
     // console.log("RECEIVED:", message.data)
-    fs.writeFileSync(`frames/frame${i}.jpg`, message.data, {
+    fs.writeFileSync(`/frames/frame.jpg`, message.data, {
         encoding: "base64url"
     });
     i++;
-    detectImage(`frame${i}.jpg`, "dior", 0.8);
+    // detectImage(`frame.jpg`, "dior", 0.8);
     // console.log('Received message on ' + listener.name + ': ' + message.data);
 });
 

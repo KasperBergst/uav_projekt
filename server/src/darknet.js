@@ -1,7 +1,5 @@
 import {exec} from "child_process";
 
-const BASE = "darknet"
-
 const detectImage = (frameName, weights, threshold) => {
     const tmp = exec(`./detect.sh ${weights} ${frameName} ${threshold}};`, 
                     {}, 

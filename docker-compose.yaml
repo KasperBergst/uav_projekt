@@ -12,6 +12,7 @@ services:
         droneHost: "drone"
       volumes:
         - ./darknet:/darknet
+        - ./frames:/frames
   drone:
       build: .
       restart: on-failure

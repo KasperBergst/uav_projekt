@@ -23,5 +23,5 @@ RUN mkdir frames
 RUN chmod +x setupServer.sh
 RUN chmod +x detect.sh
 
-CMD ["./setupServer.sh"]
+CMD ["bash", "setupServer.sh"]
 # CMD ["npm", "run", "start"]
