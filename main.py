@@ -19,10 +19,10 @@ def runRosbridge():
     log.info("Starting rosbridge...")
     subprocess.run(["roslaunch", "--wait", "rosbridge_server", "rosbridge_websocket.launch"])
 
-def isRosServiceRunning(serviceName):
+def isRosbridgeRunning():
     output = subprocess.run(["rostopic", "list"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.decode("utf-8")
     if output != None:
-        return serviceName in output
+        return "/connected_clients" in output
     else:
         return False
 
@@ -33,7 +33,7 @@ roscore.start()
 rosbridge.start()
 
 # wait for rosbridge to run
-while not isRosServiceRunning("/connected_clients"):
+while not isRosbridgeRunning():
     time.sleep(0.5)
 
 client = roslibpy.Ros(host='localhost', port=9090)
