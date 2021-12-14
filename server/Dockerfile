@@ -18,11 +18,10 @@ WORKDIR /
 COPY ./src/* /
 
 RUN npm install
-RUN ls
+RUN mkdir frames
 
-# # make darknet
-# RUN cd darknet
-# RUN make
+RUN chmod +x setupServer.sh
+RUN chmod +x detect.sh
 
-# CMD ["ls"]
-CMD ["npm", "run", "start"]
+CMD ["./setupServer.sh"]
+# CMD ["npm", "run", "start"]

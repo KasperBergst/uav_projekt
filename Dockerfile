@@ -10,9 +10,7 @@ RUN pip3 install setuptools-rust roslibpy opencv-python pybase64
 # copies the scripts
 COPY ./videos/* /videos/
 COPY ./main.py /
-COPY ./run.sh /
-RUN chmod +x run.sh
 
 EXPOSE 9090
 
-CMD ["./run.sh"]
+CMD ["python3", "main.py"]

@@ -2,20 +2,26 @@ import ROSLIB from "roslib";
 import fs from "fs";
 import detectImage from "./darknet.js";
 
+var i = 0;
+
 const ros = new ROSLIB.Ros({
     url : `ws://${process.env.droneHost}:9090`
 });
 
 const listener = new ROSLIB.Topic({
     ros : ros,
-    name : '/chatter',
+    name : '/frames',
     messageType : 'std_msgs/String'
 });
 
 listener.subscribe((message) => {
-    fs.writeFileSync("temp.jpg", message.data, {
+    // console.log("RECEIVED:", message.data)
+    fs.writeFileSync(`frames/frame${i}.jpg`, message.data, {
         encoding: "base64url"
     });
-    detectImage("temp.jpg", "dior", 0.8);
+    i++;
+    detectImage(`frame${i}.jpg`, "dior", 0.8);
     // console.log('Received message on ' + listener.name + ': ' + message.data);
 });
+
+console.log("ONLINE")
