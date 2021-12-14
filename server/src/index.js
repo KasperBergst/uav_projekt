@@ -1,6 +1,9 @@
 import ROSLIB from "roslib";
 import fs from "fs";
-import detectImage from "./darknet.js";
+import Darknet from "./darknet.js";
+
+
+const darknet = new Darknet("dior", 0.8); 
 
 var i = 0;
 
@@ -15,13 +18,15 @@ const listener = new ROSLIB.Topic({
 });
 
 listener.subscribe((message) => {
-    // console.log("RECEIVED:", message.data)
-    fs.writeFileSync(`/frames/frame.jpg`, message.data, {
+    const FRAME = `/frames/frame${i}.jpg`;
+    fs.writeFileSync(FRAME, message.data, {
         encoding: "base64url"
     });
-    i++;
-    // detectImage(`frame.jpg`, "dior", 0.8);
-    // console.log('Received message on ' + listener.name + ': ' + message.data);
+    darknet.addImage(FRAME, (data) => {
+        console.log("Done proccessing frame!", data);
+        fs.unlinkSync(FRAME);
+    });
+    i = (i + 1) % Number.MAX_SAFE_INTEGER;
 });
 
 console.log("ONLINE")

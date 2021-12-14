@@ -44,7 +44,7 @@ vidcap = cv2.VideoCapture("/videos/Perimeter.mp4")
 i = 0
 frame_skip = 25
 
-time.sleep(30)
+time.sleep(20)
 
 while client.is_connected:
 # for i in range(5):
