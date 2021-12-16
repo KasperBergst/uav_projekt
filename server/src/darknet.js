@@ -1,16 +1,16 @@
 import {spawn} from "child_process";
 
 export default class Darknet {
-    _queue = [];
+    static _queue = [];
     _child;
     _waitingForImage = false;
+
+    getImage = () => false;
 
     constructor(weights, threshold)
     {
         this._child = spawn(`bash`, ["detect.sh", weights, threshold]);
-  
         this._child.stdout.on('data', data => this.parseData(data));
-        // this._child.stdin.end();
     }
 
     /**
@@ -53,31 +53,20 @@ export default class Darknet {
     }
 
     /**
-     * Adds a frame to the queue.
-     * @param string frameName 
-     * @param (data:string)=>void callback 
-     */
-    addImage(frameName, callback)
-    {
-        this._queue.push({
-            frameName,
-            callback
-        });
-        this.queueTick();
-    }
-
-    /**
      * Checks the queue for the next element.
      */
     queueTick()
     {
-        if(this._queue.length > 0 && this._waitingForImage)
+        if(this._waitingForImage)
         {
-            const {frameName, callback} = this._queue.shift();
-            this._waitingForImage = false;
-
-            this._currCallback = callback;
-            this._child.stdin.write(frameName + "\n");
+            const element = this.getImage();
+            if(element)
+            {
+                this._waitingForImage = false;
+                
+                this._currCallback = element.callback;
+                this._child.stdin.write(element.frameName + "\n");
+            }
         }
     }
 }

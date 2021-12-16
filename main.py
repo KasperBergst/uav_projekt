@@ -46,8 +46,8 @@ frame_skip = 60
 
 time.sleep(20)
 
-# vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
-# i += frame_skip * 21;
+vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
+i += frame_skip * 7;
 
 while client.is_connected:
 # for i in range(5):
@@ -64,6 +64,6 @@ while client.is_connected:
         
         i += frame_skip
         vidcap.set(cv2.CAP_PROP_POS_FRAMES, i)
-
+        
 talker.unadvertise()
 client.terminate()

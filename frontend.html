@@ -5,11 +5,16 @@
     <meta charset="utf-8" />
 
     <script type="text/javascript" type="text/javascript">
+      let lastMessage = false;
       const socket = new WebSocket('ws://localhost:8080');
-      socket.addEventListener("close", () => setTimeout(() => location.reload(), 50));
+      socket.addEventListener("close", () => setTimeout(() => location.reload(), 500));
       socket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data);
-        if(data.file.length > 0)
+        if(lastMessage)
+        {
+          console.log("Last message", Date.now() - lastMessage);
+        }
+        if(data.file.length > 0 && data.data.find(d => d.label === "vehicle"))
         {
           const confidence = data.data.map(d => d.confidence + "%").join(", ");
           document.getElementById("images").innerHTML = `<div>
@@ -18,8 +23,9 @@
               </div>
               <img src="data:image/png;base64,${data.file}"/>
             </div>` + document.getElementById("images").innerHTML;
-          console.log('Message from server ', data);
+          // console.log('Message from server ', data);
         }
+        lastMessage = Date.now();
       });
     </script>
     <style>

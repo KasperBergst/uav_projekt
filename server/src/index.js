@@ -1,11 +1,11 @@
 import ROSLIB from "roslib";
 import fs from "fs";
 
-import Darknet from "./darknet.js";
+import DarknetManger from "./DarknetManager.js";
 import Websocket from "./websocket.js";
 
 const ws = new Websocket();
-const darknet = new Darknet("dior", 0.8); 
+const manager = new DarknetManger("dior", 0.6, 5);
 
 const ros = new ROSLIB.Ros({
     url : `ws://${process.env.droneHost}:9090`
@@ -23,7 +23,7 @@ listener.subscribe((message) => {
     fs.writeFileSync(FRAME, message.data, {
         encoding: "base64url"
     });
-    darknet.addImage(FRAME, (data) => {
+    manager.addImage(FRAME, (data) => {
         setTimeout(() => fs.unlinkSync(FRAME), 50);
         console.log("Done proccessing frame!", FRAME, data);
         let file;
