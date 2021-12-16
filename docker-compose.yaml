@@ -10,6 +10,8 @@ services:
         - server
       environment:
         droneHost: "drone"
+      ports:
+        - 8080:8080
       volumes:
         - ./darknet:/darknet
         - ./frames:/frames

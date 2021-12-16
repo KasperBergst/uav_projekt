@@ -42,13 +42,16 @@ talker = roslibpy.Topic(client, "/frames", 'std_msgs/String')
 
 vidcap = cv2.VideoCapture("/videos/Perimeter.mp4")
 i = 0
-frame_skip = 25
+frame_skip = 60
 
 time.sleep(20)
 
+vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
+i += frame_skip * 21;
+
 while client.is_connected:
 # for i in range(5):
-    time.sleep(2)
+    time.sleep(3)
 
     bool, frame = vidcap.read()
     if bool:

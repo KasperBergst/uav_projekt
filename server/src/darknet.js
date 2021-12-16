@@ -28,13 +28,28 @@ export default class Darknet {
         {
             if(this._currCallback)
             {
-                this._currCallback(this._currLog);
+                this._currCallback(this.parseDarknet(this._currLog));
             }
 
             this._currLog = "";
             this._waitingForImage = true;
             this.queueTick();
         }
+    }
+
+
+    parseDarknet(input)
+    {
+        return input
+                .split("\n")
+                .slice(1, -1)
+                .map(line => {
+                const temp = line.split("\r: ");
+                return ({
+                    label: temp[0],
+                    confidence: Number(temp[1].slice(0, -1))
+                });
+            });
     }
 
     /**

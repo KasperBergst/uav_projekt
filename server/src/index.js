@@ -1,7 +1,10 @@
 import ROSLIB from "roslib";
 import fs from "fs";
-import Darknet from "./darknet.js";
 
+import Darknet from "./darknet.js";
+import Websocket from "./websocket.js";
+
+const ws = new Websocket();
 const darknet = new Darknet("dior", 0.8); 
 
 const ros = new ROSLIB.Ros({
@@ -21,8 +24,19 @@ listener.subscribe((message) => {
         encoding: "base64url"
     });
     darknet.addImage(FRAME, (data) => {
-        console.log("Done proccessing frame!", FRAME, data);
         setTimeout(() => fs.unlinkSync(FRAME), 50);
+        console.log("Done proccessing frame!", FRAME, data);
+        let file;
+        if(data.length > 0)
+        {
+            file = fs.readFileSync("/darknet/predictions.jpg", {
+                encoding: "base64"
+            });
+        }
+        ws.send({
+            data,
+            file: file ?? false,
+        });
     });
     i = (i + 1) % Number.MAX_SAFE_INTEGER;
 });

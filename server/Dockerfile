@@ -23,5 +23,7 @@ RUN mkdir frames
 RUN chmod +x setupServer.sh
 RUN chmod +x detect.sh
 
+EXPOSE 8080
+
 CMD ["bash", "setupServer.sh"]
 # CMD ["npm", "run", "start"]
