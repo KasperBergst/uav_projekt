@@ -46,8 +46,8 @@ frame_skip = 60
 
 time.sleep(20)
 
-vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
-i += frame_skip * 21;
+# vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
+# i += frame_skip * 21;
 
 while client.is_connected:
 # for i in range(5):

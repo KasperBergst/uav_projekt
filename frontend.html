@@ -11,9 +11,10 @@
         const data = JSON.parse(event.data);
         if(data.file.length > 0)
         {
+          const confidence = data.data.map(d => d.confidence + "%").join(", ");
           document.getElementById("images").innerHTML = `<div>
               <div>
-                Detected: ${(new Date()).toLocaleTimeString()}
+                Detected: ${(new Date()).toLocaleTimeString()}, confidence: ${confidence}
               </div>
               <img src="data:image/png;base64,${data.file}"/>
             </div>` + document.getElementById("images").innerHTML;
@@ -24,6 +25,14 @@
     <style>
       div#images img {
           max-width: 380px;
+      }
+      div#images {
+          display: flex;
+          flex-wrap: wrap;
+      }
+
+      div#images div {
+          padding: 7px;
       }
     </style>
   </head>
