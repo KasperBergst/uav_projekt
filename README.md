@@ -11,9 +11,9 @@ First build the containers with the following command:
 docker-compose build
 ```
 
-Then spin up docker:
+Then spin up the docker containers:
 ```
-    docker-compose run 
+docker-compose run 
 ```
 This opens up ROS with ROS-brigde and our Server.
 
