@@ -12,7 +12,9 @@ docker-compose build
 ```
 
 Then spin up docker:
+```
     docker-compose run 
+```
 This opens up ROS with ROS-brigde and our Server.
 
 When the containers are up and running, the detections of the server can be viewed in `frontend.html`.
