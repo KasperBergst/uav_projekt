@@ -1,9 +1,14 @@
-## Building the image
-First run the following to build the rosbridge image
-    
-    docker build -t rosbridge .
+# Setup
+## Prerequisite
+Run the following command to download and setup darknet and the pretrained weight.
+    ./pre-compose.sh
 
-## Running the image
-Then run the following to run the container
+## Docker-compose
+First build the containers with the following command:
+    docker-compose build
 
-    docker run -p 9090:9090 rosbridge
+Then spin up docker:
+    docker-compose run 
+This opens up ROS with ROS-brigde and our Server.
+
+When the containers are up and running, the detections of the server can be viewed in `frontend.html`.
