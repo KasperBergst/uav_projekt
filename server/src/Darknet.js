@@ -44,7 +44,7 @@ export default class Darknet {
                 .split("\n")
                 .slice(1, -1)
                 .map(line => {
-                const temp = line.split("\r: ");
+                const temp = line.split(": ");
                 return ({
                     label: temp[0],
                     confidence: Number(temp[1].slice(0, -1))
