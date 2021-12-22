@@ -1,11 +1,15 @@
 # Setup
 ## Prerequisite
 Run the following command to download and setup darknet and the pretrained weight.
-    ./pre-compose.sh
+```
+./pre-compose.sh
+```
 
 ## Docker-compose
 First build the containers with the following command:
-    docker-compose build
+```
+docker-compose build
+```
 
 Then spin up docker:
     docker-compose run 
