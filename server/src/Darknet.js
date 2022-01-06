@@ -1,5 +1,8 @@
 import {spawn} from "child_process";
 
+/**
+ * Runs darknet and parses the results.
+ */
 export default class Darknet {
     static _queue = [];
     _child;
@@ -7,6 +10,11 @@ export default class Darknet {
 
     getImage = () => false;
 
+    /**
+     * Runs darknet on the given weights with the threshold
+     * @param string weights 
+     * @param number threshold 
+     */
     constructor(weights, threshold)
     {
         this._child = spawn(`bash`, ["detect.sh", weights, threshold]);
@@ -22,7 +30,6 @@ export default class Darknet {
     parseData(dataBuff)
     {
         const data = Buffer.from(dataBuff).toString();
-        // const oldLog = this._currLog;
         this._currLog += data;
         if(this._currLog.includes("Enter Image Path:"))
         {
@@ -38,6 +45,11 @@ export default class Darknet {
     }
 
 
+    /**
+     * Pareses the final output from darknet.
+     * @param string input 
+     * @returns 
+     */
     parseDarknet(input)
     {
         return input

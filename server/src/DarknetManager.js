@@ -4,6 +4,12 @@ export default class DarknetManager {
     #threads = [];
     #queue = [];
     
+    /**
+     * Starts darknet on the given amount of threads, with the given weight and threshold.
+     * @param string weights 
+     * @param number threshold 
+     * @param number threads 
+     */
     constructor(weights, threshold, threads)
     {
         for(let i = 0; i < threads; i++)
@@ -30,6 +36,9 @@ export default class DarknetManager {
         this.queueTick();
     }
 
+    /**
+     * Runs queueTick on every thread.
+     */
     queueTick()
     {
         this.#threads.forEach(thread => thread.queueTick());

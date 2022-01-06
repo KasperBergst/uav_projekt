@@ -41,4 +41,4 @@ listener.subscribe((message) => {
     i = (i + 1) % Number.MAX_SAFE_INTEGER;
 });
 
-console.log("ONLINE")
+console.log("ONLINE");
