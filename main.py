@@ -50,6 +50,7 @@ frame_skip = 60
 # give the server 20 seconds to start before we begin sending the data
 time.sleep(20)
 
+# video to be captured
 vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
 i += frame_skip * 7
 
