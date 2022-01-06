@@ -10,10 +10,7 @@
       socket.addEventListener("close", () => setTimeout(() => location.reload(), 500));
       socket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data);
-        if(lastMessage)
-        {
-          console.log("Last message", Date.now() - lastMessage);
-        }
+        
         if(data.file.length > 0 && data.data.find(d => d.label.includes("vehicle")))
         {
           const confidence = data.data.map(d => d.confidence + "%").join(", ");
@@ -23,7 +20,6 @@
               </div>
               <img src="data:image/png;base64,${data.file}"/>
             </div>` + document.getElementById("images").innerHTML;
-          // console.log('Message from server ', data);
         }
         lastMessage = Date.now();
       });
