@@ -11,14 +11,17 @@ fmt = '%(asctime)s %(levelname)8s: %(message)s'
 logging.basicConfig(format=fmt, level=logging.INFO)
 log = logging.getLogger(__name__)
 
+# Runs roscore
 def runRoscore():
     log.info("Starting roscore...")
     subprocess.run(["roscore"])
 
+# Runs rosbridge
 def runRosbridge():
     log.info("Starting rosbridge...")
     subprocess.run(["roslaunch", "--wait", "rosbridge_server", "rosbridge_websocket.launch"])
 
+# Returns ture if rosbridge is currently running and false otherwise
 def isRosbridgeRunning():
     output = subprocess.run(["rostopic", "list"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.decode("utf-8")
     if output != None:
