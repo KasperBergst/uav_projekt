@@ -14,7 +14,7 @@
         {
           console.log("Last message", Date.now() - lastMessage);
         }
-        if(data.file.length > 0 && data.data.find(d => d.label === "vehicle"))
+        if(data.file.length > 0 && data.data.find(d => d.label.includes("vehicle")))
         {
           const confidence = data.data.map(d => d.confidence + "%").join(", ");
           document.getElementById("images").innerHTML = `<div>
