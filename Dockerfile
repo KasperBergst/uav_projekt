@@ -7,7 +7,7 @@ RUN apt install python3-pip -y
 RUN pip3 install --upgrade pip
 RUN pip3 install setuptools-rust roslibpy opencv-python pybase64 
 
-# copies the scripts
+# copies the videos and scripts
 COPY ./videos/* /videos/
 COPY ./main.py /
 
