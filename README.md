@@ -18,6 +18,6 @@ Then spin up the docker containers:
 ```
 docker-compose run 
 ```
-This opens up ROS with ROS-brigde and our Server.
+This opens up ROS with ROS-brigde and our server.
 
-When the containers are up and running, the detections of the server can be viewed in `frontend.html`.
+When the docker is up and running, the detections of the server can be viewed in file `frontend.html`.
