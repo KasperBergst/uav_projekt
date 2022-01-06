@@ -43,6 +43,7 @@ client = roslibpy.Ros(host='localhost', port=9090)
 client.run()
 talker = roslibpy.Topic(client, "/frames", 'std_msgs/String')
 
+# video to be captured
 vidcap = cv2.VideoCapture("/videos/Perimeter.mp4")
 i = 0
 frame_skip = 60
@@ -50,13 +51,14 @@ frame_skip = 60
 # give the server 20 seconds to start before we begin sending the data
 time.sleep(20)
 
-# video to be captured
+
 vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
 i += frame_skip * 7
 
 while client.is_connected:
     time.sleep(3)
 
+    # get frames from video
     bool, frame = vidcap.read()
     if bool:
         # converts the image to base64
