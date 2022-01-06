@@ -47,13 +47,13 @@ vidcap = cv2.VideoCapture("/videos/Perimeter.mp4")
 i = 0
 frame_skip = 60
 
+# give the server 20 seconds to start before we begin sending the data
 time.sleep(20)
 
 vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_skip * 21)
-i += frame_skip * 7;
+i += frame_skip * 7
 
 while client.is_connected:
-# for i in range(5):
     time.sleep(3)
 
     bool, frame = vidcap.read()
@@ -62,7 +62,6 @@ while client.is_connected:
         bool, buffer = cv2.imencode('.jpg', frame)
         encoded_img = base64.b64encode(buffer).decode('ascii')
 
-        # log.info("sending data..")
         talker.publish(roslibpy.Message({'data': encoded_img}))
         
         i += frame_skip
